@@ -14,3 +14,17 @@ exports.login = (req, res) => {
         user: { id: user.id, name: user.name, role: user.role }
     });
 };
+register: (req, res) => {
+        const { name, email, password } = req.body;
+
+        const newUser = {
+            id: users.length + 1,
+            name,
+            email,
+            password
+        };
+
+        users.push(newUser);
+
+        res.json({ message: "Usuario registrado", user: newUser });
+    };
