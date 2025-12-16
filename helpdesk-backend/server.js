@@ -7,9 +7,17 @@ const caseRoutes = require("./routes/caseRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 
 const app = express();
-app.use(cors());
+
+/* ===== MIDDLEWARES (SIEMPRE ARRIBA) ===== */
+app.use(cors({
+    origin: "https://helpdesk-frontend.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json());
 
+/* ===== RUTAS ===== */
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/cases", caseRoutes);
@@ -19,9 +27,8 @@ app.get("/", (req, res) => {
     res.json({ message: "Helpdesk API funcionando correctamente" });
 });
 
+/* ===== SERVER ===== */
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor iniciado en puerto ${PORT}`));
-
-app.use(cors({
-    origin: "https://helpdesk-frontend.onrender.com"
-}));
+app.listen(PORT, () => {
+    console.log(`Servidor iniciado en puerto ${PORT}`);
+});
